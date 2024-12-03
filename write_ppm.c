@@ -7,10 +7,6 @@
 
 #define RANDOM_MAX 255
 #define RANDOM_MIN 0 
-
-// change these variables accordingly
-#define PPM_WIDTH 30000
-#define PPM_HEIGHT 30000
 #define FILENAME "random.ppm"
 
 typedef struct {
@@ -70,15 +66,21 @@ void write_image(PPMPixel *image, char *filename, unsigned long int width, unsig
 }
 
 
-int main() {
-    char* filename = "random.ppm";
-    PPMPixel *ppm_array = create_ppm(PPM_WIDTH, PPM_HEIGHT);
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        printf("Usage: ./write_ppm width height\n");
+        return -1;
+    }
 
+    unsigned long int ppm_width = atoi(argv[1]);
+    unsigned long int ppm_height = atoi(argv[2]);
+
+    PPMPixel *ppm_array = create_ppm(ppm_width, ppm_height);
     if (ppm_array == NULL) {
         printf("create_ppm failed\n");
         return -1;
     }
 
-    write_image(ppm_array, FILENAME, PPM_WIDTH, PPM_HEIGHT);
+    write_image(ppm_array, FILENAME, ppm_width, ppm_height);
     return 0;
 }
